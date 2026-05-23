@@ -60,6 +60,24 @@ var uiThread = new Thread(() =>
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
     };
 
+    // Đặt icon tùy chỉnh cho cửa sổ ứng dụng desktop
+    try
+    {
+        string iconPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "images", "logo.png");
+        if (System.IO.File.Exists(iconPath))
+        {
+            using (var bmp = new System.Drawing.Bitmap(iconPath))
+            {
+                System.IntPtr hIcon = bmp.GetHicon();
+                formMain.Icon = System.Drawing.Icon.FromHandle(hIcon);
+            }
+        }
+    }
+    catch
+    {
+        // Bỏ qua nếu có lỗi nạp icon để chương trình vẫn chạy
+    }
+
     var webView = new Microsoft.Web.WebView2.WinForms.WebView2
     {
         Dock = System.Windows.Forms.DockStyle.Fill
