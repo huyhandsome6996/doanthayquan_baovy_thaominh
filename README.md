@@ -10,20 +10,14 @@
 - .NET 10 SDK (hoặc mới hơn)
 - Windows (chạy như ứng dụng desktop)
 
-### Bước 1: Chạy Server Backend
+### Hướng Dẫn Chạy
 Nhấp đúp vào file **`ChayUngDung.bat`** hoặc chạy lệnh:
 ```bash
 cd Backend
 dotnet run
 ```
 
-### Bước 2: Mở Giao Diện
-Sau khi server khởi động, mở trình duyệt và truy cập:
-```
-http://localhost:5000
-```
-
-> 💡 **Lưu ý**: Đây là ứng dụng desktop dạng web-based. Server chạy cục bộ, không cần Internet để sử dụng.
+Cửa sổ ứng dụng **Windows Forms Desktop** sẽ tự động hiển thị với giao diện HTML/CSS được tích hợp hoàn toàn bên trong cửa sổ ứng dụng (sử dụng Microsoft Edge WebView2). Không mở trình duyệt web bên ngoài.
 
 ---
 

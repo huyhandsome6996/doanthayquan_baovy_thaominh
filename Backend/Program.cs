@@ -42,7 +42,48 @@ app.MapControllers();
 // Khi truy cập "/" thì trả về index.html
 app.MapFallbackToFile("index.html");
 
-Console.WriteLine("=== Quán Cafe đang chạy tại http://localhost:5000 ===");
-Console.WriteLine("=== Nhấn Ctrl+C để tắt server ===");
+// Khởi chạy Web API dưới luồng nền (Background thread)
+Task.Run(() => app.Run("http://localhost:5000"));
 
-app.Run("http://localhost:5000");
+// Khởi chạy cửa sổ Windows Forms Desktop
+System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.SystemAware);
+System.Windows.Forms.Application.EnableVisualStyles();
+System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+
+var formMain = new System.Windows.Forms.Form
+{
+    Text = "☕ Hệ Thống Quản Lý Quán Cafe (Desktop App)",
+    Width = 1350,
+    Height = 850,
+    StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+};
+
+var webView = new Microsoft.Web.WebView2.WinForms.WebView2
+{
+    Dock = System.Windows.Forms.DockStyle.Fill
+};
+
+formMain.Controls.Add(webView);
+
+formMain.Load += async (s, e) =>
+{
+    try
+    {
+        // Chờ 1 giây để server Web API khởi động hoàn tất
+        await Task.Delay(1200);
+        await webView.EnsureCoreWebView2Async();
+        webView.Source = new Uri("http://localhost:5000");
+    }
+    catch (Exception ex)
+    {
+        System.Windows.Forms.MessageBox.Show(
+            $"Không thể tải giao diện WebView2: {ex.Message}\nĐang chạy lại bằng link trình duyệt dự phòng.",
+            "Lỗi Giao Diện",
+            System.Windows.Forms.MessageBoxButtons.OK,
+            System.Windows.Forms.MessageBoxIcon.Warning
+        );
+    }
+};
+
+System.Windows.Forms.Application.Run(formMain);
+
