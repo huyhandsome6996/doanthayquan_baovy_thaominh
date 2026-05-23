@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☕ Quản Lý Quán Cafe</title>
+    <meta name="description" content="Phần mềm quản lý quán cafe: quản lý bàn, menu, gọi món và thanh toán.">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <span class="header-logo">☕</span>
+    <div>
+        <h1>Quán Cafe <span>Quản Lý</span></h1>
+        <div class="chu-nho">Hệ thống quản lý bàn, menu và thanh toán</div>
+    </div>
+</header>
+
+<!-- ===== THANH ĐIỀU HƯỚNG ===== -->
+<nav class="nav-tabs">
+    <div id="tab-ban" class="nav-tab active" onclick="chuyenTab('ban')">
+        🪑 Quản Lý Bàn
+    </div>
+    <div id="tab-menu" class="nav-tab" onclick="chuyenTab('menu')">
+        📋 Quản Lý Menu
+    </div>
+    <div id="tab-order" class="nav-tab" onclick="chuyenTab('order')">
+        🛎️ Gọi Món & Thanh Toán
+    </div>
+    <div id="tab-lichsu" class="nav-tab" onclick="chuyenTab('lichsu')">
+        📊 Lịch Sử Hóa Đơn
+    </div>
+</nav>
+
+<!-- ===== NỘI DUNG CHÍNH ===== -->
+<main class="main-content">
+
+    <!-- ==================== TRANG QUẢN LÝ BÀN ==================== -->
+    <section id="trang-ban" class="trang active">
+        <div class="luoi-2-cot">
+            <!-- Sơ đồ bàn -->
+            <div>
+                <div class="card">
+                    <div class="card-title">🗺️ Sơ Đồ Bàn</div>
+                    <div id="luoi-ban" class="luoi-ban">
+                        <div class="dang-tai">Đang tải...</div>
+                    </div>
+                    <div class="chu-nho mt-15">
+                        💡 Nhấn vào bàn để chỉnh sửa hoặc xóa bàn đó.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý bàn -->
+            <div>
+                <div class="card">
+                    <div class="card-title">➕ Thêm Bàn Mới</div>
+                    <div class="form-nhom">
+                        <label class="form-nhan" for="ten-ban-moi">Tên bàn</label>
+                        <input id="ten-ban-moi" type="text" class="form-nhap" 
+                               placeholder="Ví dụ: Bàn 5, Bàn VIP 3">
+                    </div>
+                    <button class="btn btn-chinh" onclick="themBanMoi()">➕ Thêm Bàn</button>
+                    <div id="thong-bao-ban" class="thong-bao"></div>
+                </div>
+
+                <!-- Khu vực sửa/xóa bàn (hiện khi click vào bàn) -->
+                <div id="khu-vuc-sua-ban" class="card" style="display:none">
+                    <div class="card-title">✏️ Chỉnh Sửa Bàn</div>
+                    <input id="sua-ban-id" type="hidden">
+                    <input id="xoa-ban-id" type="hidden">
+
+                    <div class="form-nhom">
+                        <label class="form-nhan">Tên bàn mới</label>
+                        <input id="sua-ten-ban" type="text" class="form-nhap">
+                    </div>
+                    <div id="thong-bao-xoa-ban" class="chu-nho mb-15"></div>
+                    <div class="flex-hang">
+                        <button class="btn btn-chinh" onclick="suaBan()">💾 Lưu</button>
+                        <button class="btn btn-do" onclick="xoaBan()">🗑️ Xóa Bàn</button>
+                        <button class="btn btn-xam" onclick="document.getElementById('khu-vuc-sua-ban').style.display='none'">✕ Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TRANG QUẢN LÝ MENU ==================== -->
+    <section id="trang-menu" class="trang">
+        <div class="card">
+            <div class="flex-hang mb-15">
+                <div class="card-title" style="margin:0;border:none;padding:0">📋 Danh Sách Thực Đơn</div>
+                <button class="btn btn-chinh" onclick="moModalThem()">➕ Thêm Món Mới</button>
+            </div>
+            <div id="thong-bao-menu" class="thong-bao"></div>
+            <div style="overflow-x:auto">
+                <table class="bang-du-lieu">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Loại</th>
+                            <th>Giá</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bang-menu-body">
+                        <tr><td colspan="6" class="dang-tai">Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TRANG GỌI MÓN & THANH TOÁN ==================== -->
+    <section id="trang-order" class="trang">
+        <div id="thong-bao-order" class="thong-bao mb-15"></div>
+
+        <!-- Chọn bàn -->
+        <div class="card">
+            <div class="card-title">🪑 Chọn Bàn</div>
+            <div class="form-nhom">
+                <select id="chon-ban-order" class="form-chon" onchange="chonBanOrder()">
+                    <option value="">-- Chọn bàn --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bàn trống: nút mở bàn -->
+        <div id="khu-vuc-mo-ban" class="card text-giua" style="display:none">
+            <div style="font-size:4rem;margin-bottom:15px">🪑</div>
+            <h3 id="ten-ban-mo" style="color:var(--mau-cafe-sang);margin-bottom:10px"></h3>
+            <p class="chu-nho mb-15">Bàn đang trống. Nhấn nút bên dưới để mở bàn cho khách.</p>
+            <button class="btn btn-xanh" onclick="moBan()">✅ Mở Bàn & Tạo Hóa Đơn</button>
+        </div>
+
+        <!-- Bàn có khách: khu vực gọi món + hóa đơn -->
+        <div id="khu-vuc-hoa-don" class="khu-vuc-hoa-don" style="display:none">
+            <!-- Cột trái: gọi món -->
+            <div>
+                <div class="card">
+                    <div class="card-title">🍽️ Thêm Món</div>
+
+                    <div class="form-nhom">
+                        <label class="form-nhan">Chọn món</label>
+                        <select id="chon-san-pham" class="form-chon" onchange="kiemTraLoaiSanPham()">
+                            <option value="">-- Chọn món --</option>
+                        </select>
+                    </div>
+
+                    <!-- Tùy chọn thêm (chỉ hiện khi là Thức Uống) -->
+                    <div id="khu-vuc-tuy-chon" class="form-nhom" style="display:none">
+                        <label class="form-nhan">🥤 Size (chỉ áp dụng cho thức uống)</label>
+                        <select id="chon-size" class="form-chon">
+                            <option value="">Thường (không đổi giá)</option>
+                            <option value="Size L">Size L (+5.000 đ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-nhom">
+                        <label class="form-nhan">Số lượng</label>
+                        <input id="so-luong" type="number" class="form-nhap" value="1" min="1" max="99">
+                    </div>
+
+                    <div class="form-nhom">
+                        <label class="form-nhan">Ghi chú (không bắt buộc)</label>
+                        <input id="ghi-chu" type="text" class="form-nhap" 
+                               placeholder="Ví dụ: Ít đường, Nhiều đá...">
+                    </div>
+
+                    <button class="btn btn-chinh" onclick="themMonVaoHoaDon()">
+                        ➕ Thêm Vào Hóa Đơn
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cột phải: hóa đơn hiện tại -->
+            <div>
+                <div class="card">
+                    <div class="card-title">
+                        🧾 Hóa Đơn - <span id="ten-ban-hoa-don" class="chu-cafe"></span>
+                    </div>
+                    <div class="chu-nho mb-15">
+                        ⏰ Mở lúc: <span id="gio-mo-ban"></span>
+                    </div>
+
+                    <div id="danh-sach-mon-goi" class="danh-sach-mon-goi">
+                        <div class="dang-tai">Chưa có món nào.</div>
+                    </div>
+
+                    <div class="tong-tien-hoa-don mt-15">
+                        <div class="chu-nho mb-15">TỔNG TIỀN THANH TOÁN</div>
+                        <div id="so-tong-tien" class="so-tong-tien">0 đ</div>
+                    </div>
+
+                    <button class="btn btn-xanh" style="width:100%;margin-top:15px;justify-content:center;padding:14px"
+                            onclick="thanhToan()">
+                        💳 Thanh Toán & Xuất Hóa Đơn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TRANG LỊCH SỬ ==================== -->
+    <section id="trang-lichsu" class="trang">
+        <div class="card">
+            <div class="flex-hang mb-15">
+                <div class="card-title" style="margin:0;border:none;padding:0">📊 Lịch Sử Hóa Đơn</div>
+                <button class="btn btn-xam" onclick="taiLichSu()">🔄 Làm Mới</button>
+            </div>
+            <div style="overflow-x:auto">
+                <table class="bang-du-lieu">
+                    <thead>
+                        <tr>
+                            <th>Mã HĐ</th>
+                            <th>Bàn</th>
+                            <th>Giờ Mở</th>
+                            <th>Giờ Thanh Toán</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bang-lich-su-body">
+                        <tr><td colspan="6" class="dang-tai">Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ==================== MODAL THÊM SẢN PHẨM ==================== -->
+<div id="modal-them-sp" class="modal-nen" onclick="this.id==='modal-them-sp'&&dongModal('modal-them-sp')">
+    <div class="modal-hop" onclick="event.stopPropagation()">
+        <div class="modal-title">➕ Thêm Sản Phẩm Mới</div>
+
+        <form id="form-them-sp" onsubmit="event.preventDefault()">
+            <div class="form-nhom">
+                <label class="form-nhan" for="them-ten-sp">Tên sản phẩm <span style="color:red">*</span></label>
+                <input id="them-ten-sp" type="text" class="form-nhap" placeholder="Ví dụ: Cà Phê Đá" required>
+            </div>
+            <div class="form-nhom">
+                <label class="form-nhan" for="them-loai-sp">Loại <span style="color:red">*</span></label>
+                <select id="them-loai-sp" class="form-chon" required>
+                    <option value="ThucUong">🥤 Thức Uống</option>
+                    <option value="DoAn">🍽️ Đồ Ăn</option>
+                </select>
+            </div>
+            <div class="form-nhom">
+                <label class="form-nhan" for="them-gia-sp">Giá (đồng) <span style="color:red">*</span></label>
+                <input id="them-gia-sp" type="number" class="form-nhap" 
+                       placeholder="Ví dụ: 35000" min="0" required>
+            </div>
+        </form>
+
+        <div id="thong-bao-them-sp" class="thong-bao"></div>
+
+        <div class="flex-hang-cuoi">
+            <button class="btn btn-xam" onclick="dongModal('modal-them-sp')">✕ Hủy</button>
+            <button class="btn btn-chinh" onclick="themSanPham()">💾 Lưu Sản Phẩm</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL SỬA SẢN PHẨM ==================== -->
+<div id="modal-sua-sp" class="modal-nen" onclick="this.id==='modal-sua-sp'&&dongModal('modal-sua-sp')">
+    <div class="modal-hop" onclick="event.stopPropagation()">
+        <div class="modal-title">✏️ Chỉnh Sửa Sản Phẩm</div>
+        <input id="sua-sp-id" type="hidden">
+
+        <div class="form-nhom">
+            <label class="form-nhan" for="sua-ten-sp">Tên sản phẩm</label>
+            <input id="sua-ten-sp" type="text" class="form-nhap">
+        </div>
+        <div class="form-nhom">
+            <label class="form-nhan" for="sua-loai-sp">Loại</label>
+            <select id="sua-loai-sp" class="form-chon">
+                <option value="ThucUong">🥤 Thức Uống</option>
+                <option value="DoAn">🍽️ Đồ Ăn</option>
+            </select>
+        </div>
+        <div class="form-nhom">
+            <label class="form-nhan" for="sua-gia-sp">Giá (đồng)</label>
+            <input id="sua-gia-sp" type="number" class="form-nhap" min="0">
+        </div>
+        <div class="form-nhom">
+            <label class="form-nhan" for="sua-dang-ban-sp">Trạng thái</label>
+            <select id="sua-dang-ban-sp" class="form-chon">
+                <option value="1">✅ Đang bán</option>
+                <option value="0">🚫 Tạm ẩn</option>
+            </select>
+        </div>
+
+        <div id="thong-bao-sua-sp" class="thong-bao"></div>
+
+        <div class="flex-hang-cuoi">
+            <button class="btn btn-xam" onclick="dongModal('modal-sua-sp')">✕ Hủy</button>
+            <button class="btn btn-chinh" onclick="luuSuaSanPham()">💾 Lưu Thay Đổi</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
