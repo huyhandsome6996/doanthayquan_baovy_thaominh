@@ -60,17 +60,18 @@ var uiThread = new Thread(() =>
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
     };
 
-    // Đặt icon tùy chỉnh cho cửa sổ ứng dụng desktop
+    // Đặt icon tùy chỉnh cho cửa sổ ứng dụng desktop bằng file .ico
     try
     {
-        string iconPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "images", "logo.png");
+        string iconPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "images", "logo.ico");
+        if (!System.IO.File.Exists(iconPath))
+        {
+            iconPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "images", "logo.ico");
+        }
+
         if (System.IO.File.Exists(iconPath))
         {
-            using (var bmp = new System.Drawing.Bitmap(iconPath))
-            {
-                System.IntPtr hIcon = bmp.GetHicon();
-                formMain.Icon = System.Drawing.Icon.FromHandle(hIcon);
-            }
+            formMain.Icon = new System.Drawing.Icon(iconPath);
         }
     }
     catch

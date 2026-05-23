@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
+    <ApplicationIcon>wwwroot\images\logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
