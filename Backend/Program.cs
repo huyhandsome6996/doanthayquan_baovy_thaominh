@@ -45,45 +45,54 @@ app.MapFallbackToFile("index.html");
 // Khởi chạy Web API dưới luồng nền (Background thread)
 Task.Run(() => app.Run("http://localhost:5000"));
 
-// Khởi chạy cửa sổ Windows Forms Desktop
-System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.SystemAware);
-System.Windows.Forms.Application.EnableVisualStyles();
-System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-
-var formMain = new System.Windows.Forms.Form
+// Khởi chạy Windows Forms trên luồng STA (Single-Threaded Apartment) để tránh lỗi COM thread mode
+var uiThread = new Thread(() =>
 {
-    Text = "☕ Hệ Thống Quản Lý Quán Cafe (Desktop App)",
-    Width = 1350,
-    Height = 850,
-    StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-};
+    System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.SystemAware);
+    System.Windows.Forms.Application.EnableVisualStyles();
+    System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
-var webView = new Microsoft.Web.WebView2.WinForms.WebView2
-{
-    Dock = System.Windows.Forms.DockStyle.Fill
-};
-
-formMain.Controls.Add(webView);
-
-formMain.Load += async (s, e) =>
-{
-    try
+    var formMain = new System.Windows.Forms.Form
     {
-        // Chờ 1 giây để server Web API khởi động hoàn tất
-        await Task.Delay(1200);
-        await webView.EnsureCoreWebView2Async();
-        webView.Source = new Uri("http://localhost:5000");
-    }
-    catch (Exception ex)
-    {
-        System.Windows.Forms.MessageBox.Show(
-            $"Không thể tải giao diện WebView2: {ex.Message}\nĐang chạy lại bằng link trình duyệt dự phòng.",
-            "Lỗi Giao Diện",
-            System.Windows.Forms.MessageBoxButtons.OK,
-            System.Windows.Forms.MessageBoxIcon.Warning
-        );
-    }
-};
+        Text = "☕ Hệ Thống Quản Lý Quán Cafe (Desktop App)",
+        Width = 1350,
+        Height = 850,
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+    };
 
-System.Windows.Forms.Application.Run(formMain);
+    var webView = new Microsoft.Web.WebView2.WinForms.WebView2
+    {
+        Dock = System.Windows.Forms.DockStyle.Fill
+    };
+
+    formMain.Controls.Add(webView);
+
+    formMain.Load += async (s, e) =>
+    {
+        try
+        {
+            // Chờ 1 giây để server Web API khởi động hoàn tất
+            await Task.Delay(1200);
+            await webView.EnsureCoreWebView2Async();
+            webView.Source = new Uri("http://localhost:5000");
+        }
+        catch (Exception ex)
+        {
+            System.Windows.Forms.MessageBox.Show(
+                $"Không thể tải giao diện WebView2: {ex.Message}",
+                "Lỗi Giao Diện",
+                System.Windows.Forms.MessageBoxButtons.OK,
+                System.Windows.Forms.MessageBoxIcon.Error
+            );
+        }
+    };
+
+    System.Windows.Forms.Application.Run(formMain);
+});
+
+// Thiết lập luồng STA bắt buộc cho WebView2
+uiThread.SetApartmentState(ApartmentState.STA);
+uiThread.Start();
+uiThread.Join(); // Đợi luồng giao diện kết thúc thì tắt ứng dụng
+
 
