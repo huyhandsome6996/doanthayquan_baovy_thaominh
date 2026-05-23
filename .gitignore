@@ -1,0 +1,18 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## SQLite database (dữ liệu cục bộ)
+*.db
+*.db-shm
+*.db-wal
+
+## Build
+publish/
+
+## OS
+.DS_Store
+Thumbs.db
