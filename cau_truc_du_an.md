@@ -15,6 +15,11 @@ doanthayquan_baovy_thaominh/ (Thư mục gốc)
 ├── QuanLyCafe.slnx              <- File giải pháp quản lý dự án trong Visual Studio
 ├── README.md                    <- Tài liệu hướng dẫn sử dụng và giải thích OOP
 ├── nhat_ky_phat_trien.md        <- Báo cáo tiến trình làm việc qua các giai đoạn
+├── form_giao_dien/              <- Thư mục chứa giao diện tĩnh mockup giữa kỳ
+│   ├── index.html               <- Mockup Quản lý Bàn
+│   ├── menu.html                <- Mockup Quản lý Menu
+│   ├── order.html               <- Mockup Gọi món & Thanh toán
+│   └── lichsu.html              <- Mockup Lịch sử Hóa đơn
 └── Backend/                     <- Thư mục chứa toàn bộ mã nguồn C# và Giao diện
     ├── Backend.csproj           <- File cấu hình dự án .NET và các thư viện
     ├── Program.cs               <- Điểm xuất phát của ứng dụng (Khởi chạy hệ thống)
@@ -43,6 +48,9 @@ doanthayquan_baovy_thaominh/ (Thư mục gốc)
     *   *Ý nghĩa:* Tài liệu hướng dẫn cài đặt và giải thích cách ứng dụng 4 tính chất OOP (Đóng gói, Kế thừa, Đa hình, Trừu tượng) vào code.
 *   **`nhat_ky_phat_trien.md`**:
     *   *Ý nghĩa:* Tài liệu báo cáo toàn bộ quá trình bạn xây dựng phần mềm qua từng giai đoạn để chứng minh dự án tự làm từ đầu đến cuối.
+*   **`form_giao_dien/`**:
+    *   *Ý nghĩa:* Thư mục chứa các trang giao diện tĩnh (mockup prototype) phục vụ nộp bài giữa kỳ theo yêu cầu của giảng viên. Các trang HTML trong này chỉ liên kết qua lại tĩnh với nhau thông qua thẻ `<a>` và chứa dữ liệu giả định sẵn, hoàn toàn không gọi API backend hay kết nối CSDL SQLite.
+    *   *Tác động:* Đáp ứng hoàn hảo yêu cầu chấm điểm giữa kỳ về mặt thiết kế giao diện độc lập.
 
 ---
 
