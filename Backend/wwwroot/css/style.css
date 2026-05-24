@@ -102,6 +102,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
 }
 
 .nav-tab:hover {
@@ -123,12 +124,8 @@ body {
 }
 
 .trang {
-    display: none;
-    animation: hienLen 0.3s ease;
-}
-
-.trang.active {
     display: block;
+    animation: hienLen 0.3s ease;
 }
 
 @keyframes hienLen {

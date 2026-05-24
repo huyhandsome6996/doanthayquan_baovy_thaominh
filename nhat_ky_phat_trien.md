@@ -172,10 +172,12 @@ Tạo thư mục `Backend/wwwroot/` chứa các tài nguyên giao diện đượ
    - Tập trung toàn bộ các hàm gọi API bằng `fetch` của JavaScript (`layDanhSachBan`, `moBan`, `themMonVaoHoaDon`, `thanhToanBan`).
    - Xử lý và hiển thị thông báo lỗi thân thiện nếu server gặp sự cố.
 
-4. **`wwwroot/js/app.js`**:
-   - Quản lý trạng thái giao diện, chuyển đổi giữa các tab mà không cần tải lại trang.
-   - Render dữ liệu bàn, danh sách menu lên màn hình.
-   - Bắt các sự kiện click chuột để hiển thị Modal thêm/sửa món, mở bàn hoặc xuất hóa đơn.
+4. **`wwwroot/js/ban.js`**, **`wwwroot/js/menu.js`**, **`wwwroot/js/order.js`**, **`wwwroot/js/lichsu.js`**:
+   - Quản lý trạng thái giao diện và xử lý sự kiện tương ứng cho từng trang:
+     - `ban.js`: Tải sơ đồ bàn, thêm bàn mới, chỉnh sửa bàn.
+     - `menu.js`: Tải thực đơn, mở modal thêm/sửa món, ẩn món.
+     - `order.js`: Chọn bàn, mở bàn, gọi món (với tính năng đa hình tùy chọn size), tính tổng tiền và thanh toán.
+     - `lichsu.js`: Tải và hiển thị lịch sử hóa đơn.
 
 ---
 

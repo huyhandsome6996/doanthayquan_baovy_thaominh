@@ -38,8 +38,7 @@ Dự án được phân chia thành 3 tầng độc lập, thể hiện rõ tron
 ### C. Tầng Presentation / Giao diện người dùng (Thư mục `Backend/wwwroot/` & `Program.cs`)
 *   **Vị trí file:** [wwwroot/](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/wwwroot/) và [Program.cs](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/Program.cs)
 *   **Chi tiết:**
-    *   `Program.cs`: Sử dụng WinForms để tạo cửa sổ chính của chương trình.
-    *   `index.html`, `style.css`, `app.js`: Nhúng trực tiếp vào cửa sổ chính thông qua **WebView2** làm giao diện hiển thị cho người dùng.
+    *   `index.html`, `menu.html`, `order.html`, `lichsu.html` cùng các tệp JavaScript tương ứng (`ban.js`, `menu.js`, `order.js`, `lichsu.js`) và CSS (`style.css`): Nhúng trực tiếp vào cửa sổ chính thông qua **WebView2** làm giao diện hiển thị cho người dùng.
 
 ---
 
@@ -105,11 +104,11 @@ Vì giao diện được chạy trên WebView2 nhúng, các Form chức năng đ
 Hệ thống có 3 cấp độ kiểm tra lỗi cực kỳ an toàn:
 
 ### A. Kiểm tra dữ liệu ở Giao diện (Tầng GUI - JavaScript)
-*   **Vị trí code:** [app.js](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/wwwroot/js/app.js)
+*   **Vị trí code:** [ban.js](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/wwwroot/js/ban.js), [menu.js](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/wwwroot/js/menu.js), [order.js](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/wwwroot/js/order.js)
 *   **Chi tiết:**
-    *   Khi thêm bàn: Kiểm tra nếu tên bàn bỏ trống (`!tenBan`) -> Hiện thông báo cảnh báo màu đỏ `"Tên bàn không được để trống!"`.
-    *   Khi thêm sản phẩm: Kiểm tra nếu tên món trống hoặc giá tiền âm -> Cảnh báo lỗi.
-    *   Khi gọi món: Kiểm tra số lượng gọi phải lớn hơn hoặc bằng 1 -> Cảnh báo lỗi.
+    *   Khi thêm bàn (`ban.js`): Kiểm tra nếu tên bàn bỏ trống (`!ten`) -> Hiện thông báo cảnh báo màu đỏ.
+    *   Khi thêm sản phẩm (`menu.js`): Kiểm tra nếu tên món trống hoặc giá tiền âm -> Cảnh báo lỗi.
+    *   Khi gọi món (`order.js`): Kiểm tra số lượng gọi phải lớn hơn hoặc bằng 1 -> Cảnh báo lỗi.
 
 ### B. Kiểm tra trùng lặp khóa chính / Logic nghiệp vụ trong CSDL (Tầng DAL - C#)
 *   **Vị trí code:** [BanDAL.cs](file:///c:/Users/PC/doanthayquan_baovy_thaominh/Backend/DAL/BanDAL.cs) (Hàm `KiemTraTrungTenBan`).
