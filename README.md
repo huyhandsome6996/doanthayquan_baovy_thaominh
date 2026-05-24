@@ -198,3 +198,46 @@ main
 | Giao diện | HTML5 + CSS3 + JavaScript (Vanilla) |
 | Font chữ | Be Vietnam Pro (Google Fonts) |
 | Kiến trúc | REST API + 3 Tầng |
+
+
+---
+
+## 💻 Hướng Dẫn Chạy Giao Diện Desktop Bằng Lệnh `dotnet run`
+
+Nếu bạn muốn chạy ứng dụng trực tiếp bằng lệnh để hiện ra cửa sổ giao diện phần mềm (desktop app) mà không cần đóng gói thành file `.exe`, hãy làm theo các bước chi tiết sau:
+
+### 1. Nơi Thực Hiện Lệnh
+Bạn cần chạy lệnh trong giao diện dòng lệnh (**Terminal**, **Command Prompt** hoặc **PowerShell**) và di chuyển vào thư mục **`Backend`** của dự án.
+
+### 2. Các Bước Thực Hiện
+
+#### **Bước 1:** Mở Terminal/Command Prompt trên máy tính của bạn.
+*Nếu bạn đang mở dự án này bằng VS Code, chỉ cần nhấn tổ hợp phím `Ctrl + \`` (hoặc vào menu `Terminal` -> `New Terminal`).*
+
+#### **Bước 2:** Di chuyển vào thư mục chứa mã nguồn Backend bằng lệnh:
+```bash
+cd Backend
+```
+
+#### **Bước 3:** Chạy lệnh khởi động ứng dụng:
+```bash
+dotnet run
+```
+*Lưu ý: Trong lần đầu tiên chạy, hệ thống sẽ tự động tải các gói thư viện cần thiết (như SQLite và WebView2) về máy của bạn.*
+
+---
+
+### ⚙️ Cách Hoạt Động Của Hệ Thống Khi Chạy Lệnh `dotnet run`
+
+1. **Khởi chạy Web API (Luồng nền):** Lệnh sẽ khởi động một Web API chạy ngầm tại địa chỉ local `http://localhost:5000` để xử lý dữ liệu và SQLite.
+2. **Khởi chạy Windows Forms (Luồng giao diện):** Đồng thời, ứng dụng tự động mở ra một cửa sổ Windows Form có kích thước 1350x850 với tiêu đề `"☕ Hệ Thống Quản Lý Quán Cafe (Desktop App)"`.
+3. **Tải Giao Diện Bằng WebView2:** Bên trong cửa sổ Windows Form đó, thư viện `Microsoft Edge WebView2` được tích hợp sẵn sẽ tự động kết nối đến `http://localhost:5000` và hiển thị trực tiếp giao diện HTML/CSS/JS mà **không cần mở trình duyệt web bên ngoài** (như Chrome, Edge hay Firefox).
+4. **Đóng Ứng Dụng:** Khi bạn tắt cửa sổ Windows Form của phần mềm, tiến trình Web API chạy ngầm cũng sẽ tự động kết thúc để giải phóng tài nguyên.
+
+---
+
+### 🛠️ Một Số Lưu Ý & Xử Lý Lỗi Thường Gặp
+
+- **Lỗi không mở được cửa sổ giao diện:** Đảm bảo máy tính của bạn đang chạy hệ điều hành **Windows** (vì Windows Forms chỉ hỗ trợ hệ điều hành Windows).
+- **Yêu cầu cài đặt WebView2:** WebView2 được tích hợp sẵn trên các phiên bản Windows 10 và Windows 11 mới nhất. Nếu hệ thống thông báo lỗi thiếu WebView2, bạn chỉ cần tải và cài đặt bản **Evergreen Bootstrapper** từ trang chủ Microsoft WebView2.
+- **Tập tin chạy nhanh nhanh hơn:** Bạn cũng có thể click đúp chuột trực tiếp vào file **`ChayUngDung.bat`** ở thư mục gốc của dự án để chạy nhanh ứng dụng mà không cần gõ lệnh thủ công.
