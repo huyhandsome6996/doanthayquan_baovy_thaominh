@@ -14,6 +14,7 @@ builder.Services.AddScoped<ISanPhamDAL, SanPhamDAL>();
 builder.Services.AddScoped<IBanDAL, BanDAL>();
 builder.Services.AddScoped<IHoaDonDAL, HoaDonDAL>();
 builder.Services.AddScoped<IChiTietHoaDonDAL, ChiTietHoaDonDAL>();
+builder.Services.AddScoped<ITaiKhoanDAL, TaiKhoanDAL>();
 
 // Cho phép Frontend HTML/JS gọi API (CORS - tắt giới hạn origin)
 builder.Services.AddCors(options =>
@@ -39,8 +40,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();
 
-// Khi truy cập "/" thì trả về index.html
-app.MapFallbackToFile("index.html");
+// Khi truy cập "/" thì trả về login.html để bắt buộc đăng nhập
+app.MapFallbackToFile("login.html");
 
 // Khởi chạy Web API dưới luồng nền (Background thread)
 Task.Run(() => app.Run("http://localhost:5000"));

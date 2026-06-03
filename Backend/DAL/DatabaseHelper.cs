@@ -29,6 +29,11 @@ namespace Backend.DAL
             // Tạo bảng BAN
             var taoHang = ketNoi.CreateCommand();
             taoHang.CommandText = @"
+                CREATE TABLE IF NOT EXISTS TaiKhoan (
+                    TenDangNhap TEXT PRIMARY KEY,
+                    MatKhau     TEXT NOT NULL
+                );
+
                 CREATE TABLE IF NOT EXISTS Ban (
                     Id        INTEGER PRIMARY KEY AUTOINCREMENT,
                     TenBan    TEXT NOT NULL,
@@ -119,6 +124,21 @@ namespace Backend.DAL
                     ('Bàn VIP 2', 'Trống');
                 ";
                 themBan.ExecuteNonQuery();
+            }
+
+            // Kiểm tra bảng TaiKhoan có admin chưa
+            var kiemTraTaiKhoan = ketNoi.CreateCommand();
+            kiemTraTaiKhoan.CommandText = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap = 'admin';";
+            var soAdmin = (long)(kiemTraTaiKhoan.ExecuteScalar() ?? 0);
+
+            if (soAdmin == 0)
+            {
+                var themAdmin = ketNoi.CreateCommand();
+                themAdmin.CommandText = @"
+                    INSERT INTO TaiKhoan (TenDangNhap, MatKhau) VALUES
+                    ('admin', 'admin123');
+                ";
+                themAdmin.ExecuteNonQuery();
             }
         }
     }

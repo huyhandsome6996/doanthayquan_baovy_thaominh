@@ -122,6 +122,24 @@ Lịch sử này được giả lập dựa trên mô hình **Agile (Trello Boar
     git commit -m "epic3/us3.2/task3.2.1: xay dung web api quan ly tao hoa don va goi mon"
     ```
 
+### 📖 User Story 3.3: Bảo mật ứng dụng với Tính Năng Đăng Nhập
+
+**✅ Task 3.3.1: Xây dựng CSDL và API Xác thực**
+*   **Hành động:** Copy các file model `TaiKhoan.cs`, giao diện `ITaiKhoanDAL.cs`, triển khai `TaiKhoanDAL.cs` và controller `AuthController.cs`.
+*   **Lệnh chạy Terminal:**
+    ```bash
+    git add .
+    git commit -m "epic3/us3.3/task3.3.1: tao csdl tai khoan va api xac thuc dang nhap"
+    ```
+
+**✅ Task 3.3.2: Tích hợp bảo mật vào giao diện Frontend**
+*   **Hành động:** Copy trang `login.html`, logic `js/login.js` và cập nhật nút đăng xuất trên các trang html.
+*   **Lệnh chạy Terminal:**
+    ```bash
+    git add .
+    git commit -m "epic3/us3.3/task3.3.2: xay dung trang dang nhap va phan quyen truy cap giao dien"
+    ```
+
 ---
 
 ## 🟣 EPIC 4: THIẾT KẾ GIAO DIỆN TĨNH MOCKUP (NỘP GIỮA KỲ)
